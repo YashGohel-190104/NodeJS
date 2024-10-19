@@ -1,4 +1,5 @@
 const multer = require('multer');
+const cloudinaryUpload = require('../util/CloudinaryUpload.js');
 
 const store = multer.diskStorage({
     destination:"./Files",
@@ -21,21 +22,50 @@ const uploadFile = multer({
     }
  }).single('Imagefile');
 
- const upload = (req, file)=>{
-    uploadFile(req, res, (err) => {
+ //normal method 
+
+//  const upload = async(req, res)=>{
+//     // console.log("Line 0 exicute");
+//     uploadFile(req, res, async(err) => {
+//         // console.log("Line 1 exicute");
+        
+//         if(err){
+//             console.log(err);
+//             return res.status(400).json({
+//                 message: "Error while uploading file",
+//                 error: err.message,
+//             });
+//         }else{
+//             res.status(200).json({
+//                 message: "File uploaded successfully",
+//                 filename: req.file,
+//             });
+            
+            
+//         }
+       
+//     });
+//  };
+
+// Cloudinary method
+const upload = async(req, res) => {
+    uploadFile(req, res, async(err) => {
         if(err){
-            // console.log(err);
-            return res.status(400).json({
-                message: "Error while uploading file",
-                error: err.message,
+            return res.json({
+                message: err || "Error while uploading file",
             });
-        }
-        res.status(200).json({
-            message: "File uploaded successfully",
-            filename: file.filename,
-        });
+        }else{
+            // Upload to cloudinary
+            const result = await cloudinaryUpload.cloudinaryFile(req.file.path);
+
+            res.status(200).json({
+                message: "File uploaded successfully",
+                file: req.file,
+                secure_url:result.secure_url,
+            });            
+        }       
     });
- };
+};
 
  module.exports = {
     upload

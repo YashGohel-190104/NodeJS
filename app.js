@@ -27,7 +27,7 @@ const mongoose = require('mongoose');
 const app = express();
 const PORT = 3002
 
-app.use(express.json)
+app.use(express.json());
 
 const UserRoutes = require('./Src/routes/UesrRoutes');
 const RoleRoutes = require('./Src/routes/RoleRoutes');
