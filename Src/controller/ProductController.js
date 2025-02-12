@@ -4,7 +4,7 @@ const Subcategories  = require('../models/SubCategoryModel');
 
 const addProduct = async (req, res) => {
     try{
-        const savedProduct = await productSchema.save(req.body);
+        const savedProduct = await productSchema.create(req.body);
         res.status(200).json({
             message: "Product saved successfully",
             data: savedProduct,

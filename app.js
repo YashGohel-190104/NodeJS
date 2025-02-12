@@ -21,22 +21,25 @@
 
 // fs.writeFileSync("employee.json",JSON.stringify(emps))
 
-
+const  cors = require("cors");
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 const PORT = 3002
 
 app.use(express.json());
+app.use(cors());
 
 const UserRoutes = require('./Src/routes/UesrRoutes');
 const RoleRoutes = require('./Src/routes/RoleRoutes');
 const ProductRoutes = require('./Src/routes/ProductRoutes');
 const UploadRoutes = require('./Src/routes/UploadRoutes');
+const ProductFormRoutes = require('./Src/routes/ProductFormRoutes');
 // app.use("/user",userRoutes);
 app.use("/role",RoleRoutes);
 app.use("/product",ProductRoutes);
 app.use("/upload",UploadRoutes);
+app.use("/productImg",ProductFormRoutes);
 
 // const userSchema = require("./Src/models/UserModel")
 // //userSchema === db.users
